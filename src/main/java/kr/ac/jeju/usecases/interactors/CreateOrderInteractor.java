@@ -76,4 +76,8 @@ public class CreateOrderInteractor {
 		return order;
 	}
 
+	public UUID deliverOrderId() {
+		return order.getId();
+	}
+
 }
