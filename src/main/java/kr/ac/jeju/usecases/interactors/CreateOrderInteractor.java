@@ -2,10 +2,11 @@ package kr.ac.jeju.usecases.interactors;
 
 import java.util.UUID;
 
+import kr.ac.jeju.usecases.boundaries.CreateOrderBoundary;
 import kr.ac.jeju.usecases.entities.Order;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
 
-public class CreateOrderInteractor {
+public class CreateOrderInteractor implements CreateOrderBoundary {
 
 	private final Integer customerId;
 	private final String customerContactInfo;
@@ -22,11 +23,13 @@ public class CreateOrderInteractor {
 		this.paymentInformation = request.getPaymentInformation();
 	}
 
+	@Override
 	public void execute() {
 		validatesAllData();
 		createOrderAndDeterminesOrderId();
 	}
 
+	@Override
 	public UUID deliverOrderId() {
 		if (order == null) {
 			throw new NotCreatedOrderException();
