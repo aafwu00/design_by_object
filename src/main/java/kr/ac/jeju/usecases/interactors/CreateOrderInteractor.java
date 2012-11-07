@@ -16,4 +16,9 @@ public class CreateOrderInteractor {
 		this.paymentInformation = paymentInformation;
 	}
 
+	public void validatesAllData() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
