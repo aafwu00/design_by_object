@@ -1,5 +1,10 @@
 package kr.ac.jeju.usecases.interactors;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
+import kr.ac.jeju.usecases.entities.Order;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,6 +31,14 @@ public class CreateOrderInteractorTest {
 	public void shouldBeThrowInvalidateExceptionWhenCustomerIsInvalidate() throws Exception {
 		interactor = new CreateOrderInteractor(null, null, null, null, null);
 		interactor.validatesAllData();
+	}
+
+	@Test
+	public void shouldBeCreateOrderAndDeterminesOrderId() throws Exception {
+		interactor.createOrderAndDeterminesOrderId();
+		final Order order = interactor.getOrder();
+
+		assertThat(order.getId(), is(notNullValue()));
 	}
 
 }

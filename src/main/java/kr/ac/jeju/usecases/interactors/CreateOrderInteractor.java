@@ -1,5 +1,9 @@
 package kr.ac.jeju.usecases.interactors;
 
+import java.util.UUID;
+
+import kr.ac.jeju.usecases.entities.Order;
+
 public class CreateOrderInteractor {
 
 	private final Integer customerId;
@@ -7,6 +11,7 @@ public class CreateOrderInteractor {
 	private final String shipmentDestination;
 	private final String shipmentMechanism;
 	private final String paymentInformation;
+	private Order order;
 
 	public CreateOrderInteractor(final Integer customerId, final String customerContactInfo, final String shipmentDestination, final String shipmentMechanism, final String paymentInformation) {
 		this.customerId = customerId;
@@ -22,6 +27,11 @@ public class CreateOrderInteractor {
 		validateShipmentDestination();
 		validateShipmentMechanism();
 		validatePaymentInformation();
+	}
+
+	public void createOrderAndDeterminesOrderId() {
+		order = new Order(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
+		order.setId(UUID.randomUUID());
 	}
 
 	private void validateCustomerContactInfo() {
@@ -60,6 +70,10 @@ public class CreateOrderInteractor {
 
 	private boolean isNullOrMinus(final Integer content) {
 		return content == null || content < 0;
+	}
+
+	public Order getOrder() {
+		return order;
 	}
 
 }
