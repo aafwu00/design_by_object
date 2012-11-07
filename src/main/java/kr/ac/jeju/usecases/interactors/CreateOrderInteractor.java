@@ -77,6 +77,9 @@ public class CreateOrderInteractor {
 	}
 
 	public UUID deliverOrderId() {
+		if (order == null) {
+			throw new NotCreatedOrderException();
+		}
 		return order.getId();
 	}
 

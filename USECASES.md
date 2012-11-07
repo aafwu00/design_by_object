@@ -11,11 +11,11 @@ Primary Course:
 
 x	1. Order clerk issues "Create Order" command with the above data
 x	2. System validates all data
-	3. System creates order and determines order-id
-	4. System delivers order-id to clerk.
+x	3. System creates order and determines order-id
+x	4. System delivers order-id to clerk.
 
 Exception Course: Validation Error
 
-	1. System delivers error message to clerk
+x	1. System delivers error message to clerk
 
 ------

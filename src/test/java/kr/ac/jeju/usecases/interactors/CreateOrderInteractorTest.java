@@ -48,4 +48,9 @@ public class CreateOrderInteractorTest {
 		assertThat(interactor.deliverOrderId(), is(notNullValue()));
 	}
 
+	@Test(expected = NotCreatedOrderException.class)
+	public void shouldBeThrowNotCreatedOrderExceptionWhenDeliverOrderId() throws Exception {
+		interactor.deliverOrderId();
+	}
+
 }
