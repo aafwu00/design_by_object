@@ -9,7 +9,7 @@ Data:
 
 Primary Course:
 
-	1. Order clerk issues "Create Order" command with the above data
+x	1. Order clerk issues "Create Order" command with the above data
 	2. System validates all data
 	3. System creates order and determines order-id
 	4. System delivers order-id to clerk.
