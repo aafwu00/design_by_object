@@ -21,7 +21,19 @@ public class CreateOrderInteractor {
 		this.paymentInformation = paymentInformation;
 	}
 
-	public void validatesAllData() {
+	public void execute() {
+		validatesAllData();
+		createOrderAndDeterminesOrderId();
+	}
+
+	public UUID deliverOrderId() {
+		if (order == null) {
+			throw new NotCreatedOrderException();
+		}
+		return order.getId();
+	}
+
+	protected void validatesAllData() {
 		validateCustomerId();
 		validateCustomerContactInfo();
 		validateShipmentDestination();
@@ -29,7 +41,7 @@ public class CreateOrderInteractor {
 		validatePaymentInformation();
 	}
 
-	public void createOrderAndDeterminesOrderId() {
+	protected void createOrderAndDeterminesOrderId() {
 		order = new Order(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
 		order.setId(UUID.randomUUID());
 	}
@@ -70,17 +82,6 @@ public class CreateOrderInteractor {
 
 	private boolean isNullOrMinus(final Integer content) {
 		return content == null || content < 0;
-	}
-
-	public Order getOrder() {
-		return order;
-	}
-
-	public UUID deliverOrderId() {
-		if (order == null) {
-			throw new NotCreatedOrderException();
-		}
-		return order.getId();
 	}
 
 }
