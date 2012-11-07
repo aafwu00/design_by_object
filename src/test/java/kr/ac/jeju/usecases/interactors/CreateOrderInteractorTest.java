@@ -22,4 +22,10 @@ public class CreateOrderInteractorTest {
 		interactor.validatesAllData();
 	}
 
+	@Test(expected = InvalidateException.class)
+	public void shouldBeThrowInvalidateExceptionWhenCustomerIsInvalidate() throws Exception {
+		interactor = new CreateOrderInteractor(null, null, null, null, null);
+		interactor.validatesAllData();
+	}
+
 }

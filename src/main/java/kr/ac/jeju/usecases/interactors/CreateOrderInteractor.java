@@ -17,8 +17,49 @@ public class CreateOrderInteractor {
 	}
 
 	public void validatesAllData() {
-		// TODO Auto-generated method stub
+		validateCustomerId();
+		validateCustomerContactInfo();
+		validateShipmentDestination();
+		validateShipmentMechanism();
+		validatePaymentInformation();
+	}
 
+	private void validateCustomerContactInfo() {
+		if (isEmpty(customerContactInfo)) {
+			throw new InvalidateException();
+		}
+	}
+
+	private void validateShipmentDestination() {
+		if (isEmpty(shipmentDestination)) {
+			throw new InvalidateException();
+		}
+	}
+
+	private void validateShipmentMechanism() {
+		if (isEmpty(shipmentMechanism)) {
+			throw new InvalidateException();
+		}
+	}
+
+	private void validatePaymentInformation() {
+		if (isEmpty(paymentInformation)) {
+			throw new InvalidateException();
+		}
+	}
+
+	private void validateCustomerId() {
+		if (isNullOrMinus(customerId)) {
+			throw new InvalidateException();
+		}
+	}
+
+	private boolean isEmpty(final String content) {
+		return content == null || content.length() == 0;
+	}
+
+	private boolean isNullOrMinus(final Integer content) {
+		return content == null || content < 0;
 	}
 
 }
