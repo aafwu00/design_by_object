@@ -3,6 +3,7 @@ package kr.ac.jeju.usecases.interactors;
 import java.util.UUID;
 
 import kr.ac.jeju.usecases.entities.Order;
+import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
 
 public class CreateOrderInteractor {
 
@@ -13,12 +14,12 @@ public class CreateOrderInteractor {
 	private final String paymentInformation;
 	private Order order;
 
-	public CreateOrderInteractor(final Integer customerId, final String customerContactInfo, final String shipmentDestination, final String shipmentMechanism, final String paymentInformation) {
-		this.customerId = customerId;
-		this.customerContactInfo = customerContactInfo;
-		this.shipmentDestination = shipmentDestination;
-		this.shipmentMechanism = shipmentMechanism;
-		this.paymentInformation = paymentInformation;
+	public CreateOrderInteractor(CreateOrderRequestModel request) {
+		this.customerId = request.getCustomerId();
+		this.customerContactInfo = request.getCustomerContactInfo();
+		this.shipmentDestination = request.getShipmentDestination();
+		this.shipmentMechanism = request.getShipmentMechanism();
+		this.paymentInformation = request.getPaymentInformation();
 	}
 
 	public void execute() {

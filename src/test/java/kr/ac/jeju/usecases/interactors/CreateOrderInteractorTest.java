@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +27,12 @@ public class CreateOrderInteractorTest {
 	@Mock
 	private CreateOrderInteractor mock;
 
+	private CreateOrderRequestModel request;
+
 	@Before
 	public void setUp() throws Exception {
-		interactor = new CreateOrderInteractor(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
+		request = new CreateOrderRequestModel(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
+		interactor = new CreateOrderInteractor(request);
 	}
 
 	@Test
@@ -38,7 +42,8 @@ public class CreateOrderInteractorTest {
 
 	@Test(expected = InvalidateException.class)
 	public void shouldBeThrowInvalidateExceptionWhenCustomerIsInvalidate() throws Exception {
-		interactor = new CreateOrderInteractor(null, null, null, null, null);
+		final CreateOrderRequestModel request = new CreateOrderRequestModel(null, null, null, null, null);
+		interactor = new CreateOrderInteractor(request);
 		interactor.validatesAllData();
 	}
 
@@ -56,7 +61,7 @@ public class CreateOrderInteractorTest {
 
 	@Test
 	public void shouldBeExecutePrimaryCourse() throws Exception {
-		interactor = new CreateOrderInteractor(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation) {
+		interactor = new CreateOrderInteractor(request) {
 			@Override
 			public void validatesAllData() {
 				mock.validatesAllData();
