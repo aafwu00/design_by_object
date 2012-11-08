@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import kr.ac.jeju.usecases.entities.Order;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
+import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
 public class CreateOrderInteractor {
 
@@ -14,7 +15,7 @@ public class CreateOrderInteractor {
 	private final String paymentInformation;
 	private Order order;
 
-	public CreateOrderInteractor(CreateOrderRequestModel request) {
+	public CreateOrderInteractor(final CreateOrderRequestModel request) {
 		this.customerId = request.getCustomerId();
 		this.customerContactInfo = request.getCustomerContactInfo();
 		this.shipmentDestination = request.getShipmentDestination();
@@ -27,11 +28,11 @@ public class CreateOrderInteractor {
 		createOrderAndDeterminesOrderId();
 	}
 
-	public UUID deliverOrderId() {
+	public CreateOrderResponseModel deliverOrderId() {
 		if (order == null) {
 			throw new NotCreatedOrderException();
 		}
-		return order.getId();
+		return new CreateOrderResponseModel(order);
 	}
 
 	protected void validatesAllData() {
