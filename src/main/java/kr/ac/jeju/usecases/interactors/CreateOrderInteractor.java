@@ -23,16 +23,10 @@ public class CreateOrderInteractor {
 		this.paymentInformation = request.getPaymentInformation();
 	}
 
-	public void execute() {
+	public CreateOrderResponseModel execute() {
 		validatesAllData();
 		createOrderAndDeterminesOrderId();
-	}
-
-	public CreateOrderResponseModel deliverOrderId() {
-		if (order == null) {
-			throw new NotCreatedOrderException();
-		}
-		return new CreateOrderResponseModel(order);
+		return deliverOrderId();
 	}
 
 	protected void validatesAllData() {
@@ -43,15 +37,24 @@ public class CreateOrderInteractor {
 		validatePaymentInformation();
 	}
 
-	protected void createOrderAndDeterminesOrderId() {
-		order = new Order(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
-		order.setId(UUID.randomUUID());
+	private void validateCustomerId() {
+		if (isNullOrMinus(customerId)) {
+			throw new InvalidateException();
+		}
+	}
+
+	private boolean isNullOrMinus(final Integer content) {
+		return content == null || content < 0;
 	}
 
 	private void validateCustomerContactInfo() {
 		if (isEmpty(customerContactInfo)) {
 			throw new InvalidateException();
 		}
+	}
+
+	private boolean isEmpty(final String content) {
+		return content == null || content.length() == 0;
 	}
 
 	private void validateShipmentDestination() {
@@ -72,18 +75,16 @@ public class CreateOrderInteractor {
 		}
 	}
 
-	private void validateCustomerId() {
-		if (isNullOrMinus(customerId)) {
-			throw new InvalidateException();
+	protected void createOrderAndDeterminesOrderId() {
+		order = new Order(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
+		order.setId(UUID.randomUUID());
+	}
+
+	protected CreateOrderResponseModel deliverOrderId() {
+		if (order == null) {
+			throw new NotCreatedOrderException();
 		}
-	}
-
-	private boolean isEmpty(final String content) {
-		return content == null || content.length() == 0;
-	}
-
-	private boolean isNullOrMinus(final Integer content) {
-		return content == null || content < 0;
+		return new CreateOrderResponseModel(order);
 	}
 
 }

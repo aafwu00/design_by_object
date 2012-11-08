@@ -5,7 +5,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
+import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,9 @@ public class CreateOrderInteractorTest {
 	private CreateOrderInteractor mock;
 
 	private CreateOrderRequestModel request;
+
+	@Mock
+	private CreateOrderResponseModel response;
 
 	@Before
 	public void setUp() throws Exception {
@@ -63,20 +68,28 @@ public class CreateOrderInteractorTest {
 	public void shouldBeExecutePrimaryCourse() throws Exception {
 		interactor = new CreateOrderInteractor(request) {
 			@Override
-			public void validatesAllData() {
+			protected void validatesAllData() {
 				mock.validatesAllData();
 			}
 
 			@Override
-			public void createOrderAndDeterminesOrderId() {
+			protected void createOrderAndDeterminesOrderId() {
 				mock.createOrderAndDeterminesOrderId();
+			}
+
+			@Override
+			protected CreateOrderResponseModel deliverOrderId() {
+				return mock.deliverOrderId();
 			}
 		};
 
-		interactor.execute();
+		when(mock.deliverOrderId()).thenReturn(response);
+
+		assertThat(interactor.execute(), is(response));
 
 		verify(mock, times(1)).validatesAllData();
 		verify(mock, times(1)).createOrderAndDeterminesOrderId();
+		verify(mock, times(1)).deliverOrderId();
 	}
 
 }
