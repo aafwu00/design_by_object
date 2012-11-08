@@ -23,12 +23,13 @@ public class CreateOrderInteractor {
 		this.paymentInformation = request.getPaymentInformation();
 	}
 
-	public void execute() {
+	public CreateOrderResponseModel execute() {
 		validatesAllData();
 		createOrderAndDeterminesOrderId();
+		return deliverOrderId();
 	}
 
-	public CreateOrderResponseModel deliverOrderId() {
+	protected CreateOrderResponseModel deliverOrderId() {
 		if (order == null) {
 			throw new NotCreatedOrderException();
 		}
