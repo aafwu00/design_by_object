@@ -6,7 +6,7 @@ import kr.ac.jeju.usecases.entities.Order;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
 import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
-public class CreateOrderInteractor {
+public class CreateOrderInteractor implements UseCaseInterator<CreateOrderResponseModel> {
 
 	private final Integer customerId;
 	private final String customerContactInfo;
@@ -23,6 +23,7 @@ public class CreateOrderInteractor {
 		this.paymentInformation = request.getPaymentInformation();
 	}
 
+	@Override
 	public CreateOrderResponseModel execute() {
 		validatesAllData();
 		createOrderAndDeterminesOrderId();
