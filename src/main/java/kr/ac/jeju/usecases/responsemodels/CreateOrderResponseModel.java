@@ -2,7 +2,7 @@ package kr.ac.jeju.usecases.responsemodels;
 
 import kr.ac.jeju.usecases.entities.Order;
 
-public class CreateOrderResponseModel {
+public class CreateOrderResponseModel implements ResponseModel {
 	private final Order order;
 
 	public CreateOrderResponseModel(final Order order) {
