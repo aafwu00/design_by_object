@@ -22,4 +22,5 @@
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
 
+	<bean class="kr.ac.jeju.usecases.interactors.CreateOrderUseCaseFactory" />
 </beans>
