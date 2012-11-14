@@ -1,4 +1,3 @@
-
 # [Clean Code, Episode 7 - Architecture](http://www.cleancoders.com/codecast/clean-code-episode-7/show)
 
 ------
@@ -8,19 +7,19 @@
 2. 흐름 
 	1. Delivery Mechanism 으로 부터 Request Model 을 생성하여 Boundary 로 위임
 	
-		![Delivery Mechanism - Request Model](doc/cleancode7usecae-1.png)
+		![Delivery Mechanism - Request Model](cleancode7usecase/doc/cleancode7usecase-1.png)
 	
 	2. Interactor 는 실제 Entity 들과 상호 작용하여 Request Model 데이터를 처리
 	
-		![Interactor - Entity](doc/cleancode7usecae-2.png)
+		![Interactor - Entity](cleancode7usecase/doc/cleancode7usecase-2.png)
 	
 	3. Interactor 처리 결과를 Response Model(Result Model)로 취합한다.
 	
-		![Interactor - Response Model](doc/cleancode7usecae-3.png)
+		![Interactor - Response Model](cleancode7usecase/doc/cleancode7usecase-3.png)
 	
 	4. Response Model 을 Boundary 를 통해 Delivery Mechanism 으로 보낸다.
 	
-		![Boundary - Delivery Mechanism](doc/cleancode7usecae-4.png)
+		![Boundary - Delivery Mechanism](cleancode7usecase/doc/cleancode7usecase-3.png)
 3. 고민
 	1.	Presenter, Response Model
 
