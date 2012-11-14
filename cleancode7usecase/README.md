@@ -7,19 +7,19 @@
 2. 흐름 
 	1. Delivery Mechanism 으로 부터 Request Model 을 생성하여 Boundary 로 위임
 	
-		![Delivery Mechanism - Request Model](cleancode7usecase/doc/cleancode7usecase-1.png)
+		![Delivery Mechanism - Request Model](https://raw.github.com/aafwu00/design_by_object/master/cleancode7usecase/doc/cleancode7usecase-1.png)
 	
 	2. Interactor 는 실제 Entity 들과 상호 작용하여 Request Model 데이터를 처리
 	
-		![Interactor - Entity](cleancode7usecase/doc/cleancode7usecase-2.png)
+		![Interactor - Entity](https://raw.github.com/aafwu00/design_by_object/master/cleancode7usecase/doc/cleancode7usecase-2.png)
 	
 	3. Interactor 처리 결과를 Response Model(Result Model)로 취합한다.
 	
-		![Interactor - Response Model](cleancode7usecase/doc/cleancode7usecase-3.png)
+		![Interactor - Response Model](https://raw.github.com/aafwu00/design_by_object/master/cleancode7usecase/doc/cleancode7usecase-3.png)
 	
 	4. Response Model 을 Boundary 를 통해 Delivery Mechanism 으로 보낸다.
 	
-		![Boundary - Delivery Mechanism](cleancode7usecase/doc/cleancode7usecase-3.png)
+		![Boundary - Delivery Mechanism](https://raw.github.com/aafwu00/design_by_object/master/cleancode7usecase/doc/cleancode7usecase-4.png)
 3. 고민
 	1.	Presenter, Response Model
 
@@ -54,10 +54,15 @@
 ------
 
 ## Tag
-1. cleancode7usecase-try1
-
-2. cleancode7usecase-try2
+1. cleancode7usecase-try1: 명석님 첫번째 피드백
+	1. Boundary 를 Interactor 가 상속 하는 구조가 아니다. 
+	2. Servlet Request 를 Parsing 은 Spring MVC 로 대체 하자. Builder 가 필요 없는 구조
+	3. Response Model 을 Execute 시 반환 받자. 다른 UseCase 모
+2. cleancode7usecase-try2: 명석님 두번째 피드백
+	1. UseCaseFactory에서 create 메소드가 OCP 를 위반하고 있다. UseCase 가 늘어났때 마다, Factory 에서 create 메소드를 추가..
+	2. Request Model 에 대한 추상화 필요.
 3. cleancode7usecase-try3
+	1. UseCaseFactory 에 Generic 부분 설계 잘못
 
 ------
 
