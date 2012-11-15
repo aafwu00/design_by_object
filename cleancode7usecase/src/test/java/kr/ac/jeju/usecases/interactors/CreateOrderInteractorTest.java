@@ -1,11 +1,9 @@
 package kr.ac.jeju.usecases.interactors;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import kr.ac.jeju.usecases.boundaries.Presenter;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
 import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
@@ -34,10 +32,15 @@ public class CreateOrderInteractorTest {
 	@Mock
 	private CreateOrderResponseModel response;
 
+	@Mock
+	private Presenter<CreateOrderResponseModel> presenter;
+
 	@Before
 	public void setUp() throws Exception {
 		request = new CreateOrderRequestModel(customerId, customerContactInfo, shipmentDestination, shipmentMechanism, paymentInformation);
-		interactor = new CreateOrderInteractor(request);
+		interactor = new CreateOrderInteractor();
+		interactor.accept(request);
+		interactor.setPresenter(presenter);
 	}
 
 	@Test
@@ -48,15 +51,18 @@ public class CreateOrderInteractorTest {
 	@Test(expected = InvalidateException.class)
 	public void shouldBeThrowInvalidateExceptionWhenCustomerIsInvalidate() throws Exception {
 		final CreateOrderRequestModel request = new CreateOrderRequestModel(null, null, null, null, null);
-		interactor = new CreateOrderInteractor(request);
+		interactor = new CreateOrderInteractor();
+		interactor.accept(request);
 		interactor.validatesAllData();
 	}
 
 	@Test
 	public void shouldBeCreateOrderAndDeterminesOrderId() throws Exception {
 		interactor.createOrderAndDeterminesOrderId();
+		interactor.deliverOrderId();
 
-		assertThat(interactor.deliverOrderId(), is(notNullValue()));
+		verify(presenter, times(1)).accept(any(CreateOrderResponseModel.class));
+		verify(presenter, times(1)).execute();
 	}
 
 	@Test(expected = NotCreatedOrderException.class)
@@ -66,7 +72,7 @@ public class CreateOrderInteractorTest {
 
 	@Test
 	public void shouldBeExecutePrimaryCourse() throws Exception {
-		interactor = new CreateOrderInteractor(request) {
+		interactor = new CreateOrderInteractor() {
 			@Override
 			protected void validatesAllData() {
 				mock.validatesAllData();
@@ -78,14 +84,11 @@ public class CreateOrderInteractorTest {
 			}
 
 			@Override
-			protected CreateOrderResponseModel deliverOrderId() {
-				return mock.deliverOrderId();
+			protected void deliverOrderId() {
+				mock.deliverOrderId();
 			}
 		};
-
-		when(mock.deliverOrderId()).thenReturn(response);
-
-		assertThat(interactor.execute(), is(response));
+		interactor.execute();
 
 		verify(mock, times(1)).validatesAllData();
 		verify(mock, times(1)).createOrderAndDeterminesOrderId();

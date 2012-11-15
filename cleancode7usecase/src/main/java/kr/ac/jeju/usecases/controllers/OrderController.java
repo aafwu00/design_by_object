@@ -1,9 +1,10 @@
 package kr.ac.jeju.usecases.controllers;
 
-import kr.ac.jeju.usecases.interactors.UseCaseFactory;
-import kr.ac.jeju.usecases.interactors.UseCaseInteractor;
+import kr.ac.jeju.usecases.boundaries.Interactor;
+import kr.ac.jeju.usecases.boundaries.InteractorFactory;
+import kr.ac.jeju.usecases.boundaries.PresenterFactory;
+import kr.ac.jeju.usecases.presenters.CreateOrderPresenter;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
-import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,11 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class OrderController {
 
-	private UseCaseFactory<CreateOrderRequestModel, CreateOrderResponseModel> useCaseFactory;
+	private PresenterFactory<CreateOrderPresenter> presenterFactory;
+
+	private InteractorFactory<CreateOrderRequestModel> interactorFactory;
 
 	@Autowired
-	public void setUseCaseFactory(final UseCaseFactory<CreateOrderRequestModel, CreateOrderResponseModel> useCaseFactory) {
-		this.useCaseFactory = useCaseFactory;
+	public void setPresenterFactory(final PresenterFactory<CreateOrderPresenter> presenterFactory) {
+		this.presenterFactory = presenterFactory;
+	}
+
+	@Autowired
+	public void setInteractorFactory(final InteractorFactory<CreateOrderRequestModel> interactorFactory) {
+		this.interactorFactory = interactorFactory;
 	}
 
 	@RequestMapping("home")
@@ -27,9 +35,12 @@ public class OrderController {
 
 	@RequestMapping("create")
 	public void create(final Model model, @ModelAttribute final CreateOrderRequestModel request) {
-		final UseCaseInteractor<CreateOrderResponseModel> interactor = useCaseFactory.create(request);
-		final CreateOrderResponseModel response = interactor.execute();
-		model.addAttribute("order", response.getOrder());
+		final CreateOrderPresenter presenter = presenterFactory.create();
+		presenter.setModel(model);
+
+		final Interactor<CreateOrderRequestModel> interactor = interactorFactory.create();
+		interactor.accept(request);
+		interactor.execute();
 	}
 
 }

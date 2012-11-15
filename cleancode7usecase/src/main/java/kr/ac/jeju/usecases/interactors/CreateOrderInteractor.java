@@ -2,20 +2,25 @@ package kr.ac.jeju.usecases.interactors;
 
 import java.util.UUID;
 
+import kr.ac.jeju.usecases.boundaries.Interactor;
+import kr.ac.jeju.usecases.boundaries.Presenter;
 import kr.ac.jeju.usecases.entities.Order;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
 import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
-public class CreateOrderInteractor implements UseCaseInteractor<CreateOrderResponseModel> {
+public class CreateOrderInteractor implements Interactor<CreateOrderRequestModel> {
 
-	private final Integer customerId;
-	private final String customerContactInfo;
-	private final String shipmentDestination;
-	private final String shipmentMechanism;
-	private final String paymentInformation;
+	private Integer customerId;
+	private String customerContactInfo;
+	private String shipmentDestination;
+	private String shipmentMechanism;
+	private String paymentInformation;
 	private Order order;
 
-	public CreateOrderInteractor(final CreateOrderRequestModel request) {
+	private Presenter<CreateOrderResponseModel> presenter;
+
+	@Override
+	public void accept(final CreateOrderRequestModel request) {
 		this.customerId = request.getCustomerId();
 		this.customerContactInfo = request.getCustomerContactInfo();
 		this.shipmentDestination = request.getShipmentDestination();
@@ -24,10 +29,10 @@ public class CreateOrderInteractor implements UseCaseInteractor<CreateOrderRespo
 	}
 
 	@Override
-	public CreateOrderResponseModel execute() {
+	public void execute() {
 		validatesAllData();
 		createOrderAndDeterminesOrderId();
-		return deliverOrderId();
+		deliverOrderId();
 	}
 
 	protected void validatesAllData() {
@@ -81,11 +86,16 @@ public class CreateOrderInteractor implements UseCaseInteractor<CreateOrderRespo
 		order.setId(UUID.randomUUID());
 	}
 
-	protected CreateOrderResponseModel deliverOrderId() {
+	protected void deliverOrderId() {
 		if (order == null) {
 			throw new NotCreatedOrderException();
 		}
-		return new CreateOrderResponseModel(order);
+		final CreateOrderResponseModel response = new CreateOrderResponseModel(order);
+		presenter.accept(response);
+		presenter.execute();
 	}
 
+	public void setPresenter(final Presenter<CreateOrderResponseModel> presenter) {
+		this.presenter = presenter;
+	}
 }

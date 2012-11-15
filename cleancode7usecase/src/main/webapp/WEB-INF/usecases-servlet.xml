@@ -22,5 +22,19 @@
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
 
-	<bean class="kr.ac.jeju.usecases.interactors.CreateOrderUseCaseFactory" />
+	<bean id="createOrderPresenterFactory" class="kr.ac.jeju.usecases.boundaries.PresenterFactory">
+		<lookup-method name="create" bean="createOrderPresenter" />
+	</bean>
+	
+	<bean id="createOrderInteractorFactory" class="kr.ac.jeju.usecases.boundaries.InteractorFactory">
+		<lookup-method name="create" bean="createOrderInteractor" />
+	</bean>
+
+	<bean id="createOrderPresenter" scope="request"
+		class="kr.ac.jeju.usecases.presenters.CreateOrderPresenter" />
+
+	<bean id="createOrderInteractor" scope="prototype"
+		class="kr.ac.jeju.usecases.interactors.CreateOrderInteractor"
+		p:presenter-ref="createOrderPresenter" />
+
 </beans>

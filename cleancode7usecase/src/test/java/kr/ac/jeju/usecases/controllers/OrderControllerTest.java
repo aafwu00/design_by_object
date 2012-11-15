@@ -3,11 +3,12 @@ package kr.ac.jeju.usecases.controllers;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import kr.ac.jeju.usecases.boundaries.Interactor;
+import kr.ac.jeju.usecases.boundaries.InteractorFactory;
+import kr.ac.jeju.usecases.boundaries.PresenterFactory;
 import kr.ac.jeju.usecases.entities.Order;
-import kr.ac.jeju.usecases.interactors.UseCaseFactory;
-import kr.ac.jeju.usecases.interactors.UseCaseInteractor;
+import kr.ac.jeju.usecases.presenters.CreateOrderPresenter;
 import kr.ac.jeju.usecases.requestmodels.CreateOrderRequestModel;
-import kr.ac.jeju.usecases.responsemodels.CreateOrderResponseModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,10 @@ public class OrderControllerTest {
 	private OrderController controller;
 
 	@Mock
-	private UseCaseFactory<CreateOrderRequestModel, CreateOrderResponseModel> useCaseFactory;
+	private PresenterFactory<CreateOrderPresenter> presenterFactory;
+
+	@Mock
+	private InteractorFactory<CreateOrderRequestModel> interactorFactory;
 
 	@Mock
 	private Model model;
@@ -30,10 +34,10 @@ public class OrderControllerTest {
 	private CreateOrderRequestModel request;
 
 	@Mock
-	private UseCaseInteractor<CreateOrderResponseModel> interactor;
+	private Interactor<CreateOrderRequestModel> interactor;
 
 	@Mock
-	private CreateOrderResponseModel response;
+	private CreateOrderPresenter presenter;
 
 	@Mock
 	private Order order;
@@ -41,19 +45,20 @@ public class OrderControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		controller = new OrderController();
-		controller.setUseCaseFactory(useCaseFactory);
+		controller.setInteractorFactory(interactorFactory);
+		controller.setPresenterFactory(presenterFactory);
 	}
 
 	@Test
 	public void shouldBeCreate() throws Exception {
-		when(useCaseFactory.create(request)).thenReturn(interactor);
-		when(interactor.execute()).thenReturn(response);
-		when(response.getOrder()).thenReturn(order);
+		when(presenterFactory.create()).thenReturn(presenter);
+		when(interactorFactory.create()).thenReturn(interactor);
 
 		controller.create(model, request);
 
+		verify(presenter, times(1)).setModel(model);
+		verify(interactor, times(1)).accept(request);
 		verify(interactor, times(1)).execute();
-		verify(model, times(1)).addAttribute("order", order);
 	}
 
 }

@@ -54,15 +54,20 @@
 ------
 
 ## Tag
-1. cleancode7usecase-try1: 명석님 첫번째 피드백
-	1. Boundary 를 Interactor 가 상속 하는 구조가 아니다. 
-	2. Servlet Request 를 Parsing 은 Spring MVC 로 대체 하자. Builder 가 필요 없는 구조
-	3. Response Model 을 Execute 시 반환 받자. 다른 UseCase 모
-2. cleancode7usecase-try2: 명석님 두번째 피드백
-	1. UseCaseFactory에서 create 메소드가 OCP 를 위반하고 있다. UseCase 가 늘어났때 마다, Factory 에서 create 메소드를 추가..
-	2. Request Model 에 대한 추상화 필요.
-3. cleancode7usecase-try3
+1. cleancode7usecase-try1 -> try2 
+	1. Boundary 를 Interactor 가 상속 하는 구조가 아니다. - 명석님 피드백
+	2. Servlet Request 를 Parsing 은 Spring MVC 로 대체 하자. Builder 가 필요 없는 구조 - 명석님 피드백
+	3. Response Model 을 Execute 시 반환 받자. - 명석님 피드백
+2. cleancode7usecase-try2 -> try3
+	1. UseCaseFactory에서 create 메소드가 OCP 를 위반하고 있다. UseCase 가 늘어났때 마다, Factory 에서 create 메소드를 추가.. - 명석님 피드백
+	2. Request Model 에 대한 추상화 필요. - 명석님 피드백
+3. cleancode7usecase-try3 -> try4
 	1. UseCaseFactory 에 Generic 부분 설계 잘못
+4. cleancode7usecase-try4 -> try5
+	1. InBoundary(Interactor), OutBoundary(Presenter) 로 구분하자. - 범균님 피드백
+	2. Spring Lookup Method 활용하여 UseCaseFactory 에 대한 구현을 줄이자. - 명석님 피드백
+	3. 2번과 같은 아이디어로 Presenter 를 Spring Scope 를 활용하여 Presenter 구성
+
 
 ------
 
